@@ -24,6 +24,7 @@ Data files associated with this repo are on [Box](https://ucdavis.box.com/s/4uqt
     -   patch_overlap - parameter of `predict_tile`
     -   other parameters of `predict_tile`?
     -   resolution of the provided orthomosaic
+    -   slivers removed or kept
 -   Compare the DeepForest tree detections against the ground-measured reference tree map using the scripts in the repo [tree-map-comparison](https://github.com/open-forest-observatory/tree-map-comparison)
     -   This repo is already cloned to `/ofo-share/utils/tree-map-comparison`
     -   Try first filtering out predicted trees with a low confidence score (and test different filter thresholds)

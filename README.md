@@ -4,7 +4,7 @@ Evaluation of computer vision-based tools for tree detection
 
 ## Scripts in `scripts-for-reference/`
 
-These scripts are intended to provide a starting point and examples for performing tree detection with DeepForest on the OFO's Emerald Point dataset
+These scripts are intended to provide a starting point and examples for performing tree detection with DeepForest on the OFO's Emerald Point dataset.
 
 **`run-deepforest-prediction-from-command-line.py`:** This script does not need to be run directly. It is a helper script for `run-deepforest-multiple-ways.R`. This script can be called from the command line. It is a wrapper for several functions in DeepForest (primarily [predict_tile](https://deepforest.readthedocs.io/en/latest/source/deepforest.html#deepforest.main.deepforest.predict_tile) and bboxes_to_shapefile). This streamlines calling DeepForest from R, expecially calling it multiple times with different parameters. The structure of the command line call is: `python3 run-deepforest-prediction-from-command-line.py {orthomosaic file path} {window size} {output bounding box gpkg file path}`
 

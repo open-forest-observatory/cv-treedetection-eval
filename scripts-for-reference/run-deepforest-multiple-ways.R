@@ -49,7 +49,7 @@ for(window_size in window_sizes) {
   }
   
   # put together the command line call and call it
-  call = paste("python3 workflow/run-deepforest-tree-det.py", ORTHO_FILEPATH, window_size, bbox_gpkg_out, sep = " ")
+  call = paste("python3 /ofo-share/utils/run-deepforest-prediction-from-command-line.py", ORTHO_FILEPATH, window_size, bbox_gpkg_out, sep = " ")
   system(call)
   
 }

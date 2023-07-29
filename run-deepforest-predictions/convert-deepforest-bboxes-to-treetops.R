@@ -16,7 +16,7 @@ library(sf)
 #### CONSTANTS ####
 
 BBOXES_DIR = "..." # where are the predicted deepforest tree bboxes
-CHM_FILEPATH = ".../emerald-point_10a-20230103T2008/chm.tif" # where to get the CHM (canopy height model) for assigning heights to the treetops
+CHM_FILEPATH = ".../chm.tif" # where to get the CHM (canopy height model) for assigning heights to the treetops
 OUT_DIR = "..." # where to store the resulting ttops files
 
 # Load the bboxes files
@@ -87,4 +87,3 @@ for(bboxes_file in bboxes_files) {
   st_write(ttops, out_filepath, delete_dsn=TRUE)
   
 }
-

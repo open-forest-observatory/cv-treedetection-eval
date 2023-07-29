@@ -10,9 +10,9 @@ library(sf)
 
 #### CONSTANTS ####
 
-BBOXES_DIR = "/path/to/deepforest/predicted/bboxes.gpkg" # where are the predicted deepforest tree bboxes
-CHM_FILEPATH = "/path/to/CHM.tif" # where to get the CHM (canopy height model) for assigning heights to the treetops
-OUT_DIR = "path/to/output/directory" # where to store the resulting ttops files
+BBOXES_DIR = "..." # where are the predicted deepforest tree bboxes
+CHM_FILEPATH = ".../chm.tif" # where to get the CHM (canopy height model) for assigning heights to the treetops
+OUT_DIR = "..." # where to store the resulting ttops files
 
 # Load the bboxes files
 bboxes_files = list.files(BBOXES_DIR, pattern="^bboxes.*gpkg$", full.names=TRUE)

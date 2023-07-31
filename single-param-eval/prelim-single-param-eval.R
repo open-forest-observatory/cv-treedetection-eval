@@ -8,12 +8,14 @@
 library(tidyverse)
 
 #### CONSTANTS ####
-STATS_DIR = "/ofo-share/repos-max/cv-treedetection-eval_max/single-param-data/comparisons/ortho_resolution/tree_detection_evals" # path to folder containing match_stats.csv files
-OUT_DIR = "/ofo-share/repos-max/cv-treedetection-eval_max/single-param-data" # path to save plot png
-PLOT_FILE_NAME = "ortho_resolution-plot" # file name to assign to plot png
-SINGLE_PARAM = "Orthomosaic Resolution" # the parameter of interest
+STATS_DIR = "..." # path to folder containing match_stats.csv files
+OUT_DIR = "..." # path to save plot png
+
+PLOT_FILE_NAME = "...-plot" # file name to assign to plot png
+SINGLE_PARAM = "..." # the parameter of interest
+
 MIN_HEIGHT_COR = 0.85 # minimum acceptable height correlation
-MAX_SEN_PRE_DIFF = 0.8 # maximum acceptable difference between sensitivity and precision
+MAX_SEN_PRE_DIFF = 0.5 # maximum acceptable difference between sensitivity and precision
 
 
 #### DATA LOADING ####
@@ -51,7 +53,7 @@ stats = stats %>%
   merge(all_cat_stats, by = "predicted_tree_dataset_name") %>%
   # extract the single parameter name from file name
   mutate({{SINGLE_PARAM}} := as.numeric(str_extract(predicted_tree_dataset_name,
-                                                    "\\d+\\.\\d+$"))) %>% # change as needed
+                                                    "\\d*\\.?\\d+$"))) %>% # change as needed
   # remove canopy_position and height_cat columns
   select(-canopy_position, -height_cat, -predicted_tree_dataset_name)
 
@@ -85,7 +87,7 @@ p = ggplot(stats, aes(x = .data[[SINGLE_PARAM]], y = f_score)) +
       x = optimal_param,
       y = max(stats$f_score),
       label = paste("Optimal Parameter:", optimal_param),
-      hjust = 0.3, # adjust as needed
+      hjust = 0, # adjust as needed
       vjust = 10, # adjust as needed
     ) +
     guides(color = guide_legend(title = NULL))

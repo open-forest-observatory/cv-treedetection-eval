@@ -15,9 +15,9 @@ library(sf)
 
 #### CONSTANTS ####
 
-BBOXES_DIR = "..." # where are the predicted deepforest tree bboxes
-CHM_FILEPATH = ".../chm.tif" # where to get the CHM (canopy height model) for assigning heights to the treetops
-OUT_DIR = "..." # where to store the resulting ttops files
+BBOXES_DIR = "/ofo-share/repos-max/cv-treedetection-eval_max/single-param-data/bboxes/ortho-resolution" # where are the predicted deepforest tree bboxes
+CHM_FILEPATH = "/ofo-share/cv-treedetection-eval_data/photogrammetry-outputs/emerald-point_10a-20230103T2008/chm.tif" # where to get the CHM (canopy height model) for assigning heights to the treetops
+OUT_DIR = "/ofo-share/repos-max/cv-treedetection-eval_max/single-param-data/ttops/ortho_resolution" # where to store the resulting ttops files
 
 # Load the bboxes files
 bboxes_files = list.files(BBOXES_DIR, pattern="^bboxes.*gpkg$", full.names=TRUE)

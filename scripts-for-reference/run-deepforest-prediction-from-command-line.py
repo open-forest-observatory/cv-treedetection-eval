@@ -12,61 +12,35 @@ import os
 import sys
 import rasterio as rio
 import numpy as  np
-from skimage.transform import resize
 from pathlib import Path
+from PIL import Image
 
 # resize helper functions
-def resize_orthomosaic(orthomosaic, new_resolution):
-    """
-    Resize the orthomosaic to a new resolution by dividing it into patches, resizing each patch, and stitching them back together.
+def resize_ortho(original_ortho, resize_factor):
+  """
+    Resize the orthomosaic image by the specified resize factor.
 
-    Parameters:
-        orthomosaic (numpy array): The original orthomosaic as a 3D numpy array with shape (height, width, num_channels).
-        new_resolution (float): The desired new resolution for the orthomosaic.
-
-    Returns:
-        numpy array: The resized orthomosaic as a 3D numpy array with shape (new_height, new_width, num_channels).
-    """
-    original_height, original_width, num_channels = orthomosaic.shape
-    new_height = int(original_height * new_resolution)
-    new_width = int(original_width * new_resolution)
-
-    # Calculate the number of patches in each dimension
-    patch_height = 512  # Adjust this value based on your preference and system memory
-    patch_width = 512   # Adjust this value based on your preference and system memory
-    num_patches_height = int(np.ceil(new_height / patch_height))
-    num_patches_width = int(np.ceil(new_width / patch_width))
-
-    # Initialize the resized orthomosaic with NaN values
-    resized_ortho = np.full((new_height, new_width, num_channels), np.nan)
-
-    # Resize each patch and place it in the corresponding location in the resized orthomosaic
-    for row in range(num_patches_height):
-        for col in range(num_patches_width):
-            start_h, end_h = get_patch_start_end(row, patch_height, new_height)
-            start_w, end_w = get_patch_start_end(col, patch_width, new_width)
-
-            patch = orthomosaic[start_h:end_h, start_w:end_w, :]
-            resized_patch = resize(patch, (end_h - start_h, end_w - start_w, num_channels))
-            resized_ortho[start_h:end_h, start_w:end_w, :] = resized_patch
-
-    return resized_ortho
-
-def get_patch_start_end(patch_idx, patch_size, image_size):
-    """
-    Calculate the starting and ending indices of a patch based on the patch index, patch size, and image size.
-
-    Parameters:
-        patch_idx (int): The index of the patch.
-        patch_size (int): The size of the patch.
-        image_size (int): The size of the entire image.
+    Args:
+        original_ortho (numpy.ndarray): The original orthomosaic as a numpy array.
+        resize_factor (float): The factor by which to resize the orthomosaic
+                               (e.g., 0.8 for 80% resolution).
 
     Returns:
-        tuple: A tuple containing the starting and ending indices of the patch.
-    """
-    start = patch_idx * patch_size
-    end = min(start + patch_size, image_size)
-    return start, end
+        resized_ortho_array (numpy.ndarray): The resized orthomosaic a numpy array.
+  """
+  # if line below is commented, large orthos may not be resized (DecompressionBombError)
+  # if line blow is uncommented, resizing large orthos may use excessive memory and processing
+  Image.MAX_IMAGE_PIXELS = None
+  
+  image = Image.fromarray(original_ortho.astype(np.uint8)) # create the PIL image from the numpy array
+  
+  original_width, original_height = image.size # get the original width and height
+  new_width = int(original_width * resize_factor) # calculate the new width
+  new_height = int(original_height * resize_factor) # calculate the new height
+  
+  resized_ortho = image.resize((new_width, new_height), Image.LANCZOS) # resize the image
+  resized_ortho_array = np.array(resized_ortho)
+  return resized_ortho_array
 
 
 # Get parameters from command line arguments if running from command line, otherwise use hard-coded testing parameters
@@ -87,11 +61,8 @@ df = r.read()
 df = df[:3, :, :]
 rolled_df = np.rollaxis(df, 0, 3)
 
-# Ensure the current and desired ortho resolution match
-if ortho_resolution != 1:
-    resized_df = resize_orthomosaic(df, ortho_resolution)
-else:
-    resized_df = rolled_df
+# Resize ortho
+resized_df = resize_ortho(rolled_df, ortho_resolution)
 
 # Initialize deepforest model
 m = main.deepforest()

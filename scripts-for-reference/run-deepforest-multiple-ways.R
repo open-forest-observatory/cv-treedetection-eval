@@ -9,18 +9,29 @@
 library(tidyverse)
 
 #### CONSTANTS ####
-# path to the orthomosaic to detect trees from
-ORTHO_FILEPATH = "/ofo-share/cv-treedetection-eval_data/photogrammetry-outputs/emerald-point_10a-20230103T2008/ortho.tif"
-# path to the directory to save the results (detected trees) to
-OUT_DIR = "/ofo-share/repos-max/cv-treedetection-eval_max/single-param-data/bboxes/ortho-resolution"
+ORTHO_FILEPATH = ".../ortho.tif" # path to the orthomosaic to detect trees from
+OUT_DIR = "..." # path to the directory to save the results (detected trees) to
 
-WINDOW_SIZE = 1250  # the DeepForest window size(s) to test
-PATCH_OVERLAP = 0.25 # the DeepForest patch overlap(s) to test
-ORTHO_RESOLUTION = c(0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95) # the orthomosaic resolution(s) to test
-SINGLE_PARAM_RANGE = ORTHO_RESOLUTION # the parameter of interest
+SINGLE_PARAM = "..." # the parameter of interest (i.e. ortho_resolution, window_size, patch_overlap, iou_threshold)
+SINGLE_PARAM_RANGE = c() # a vector of the single parameter values
 
 
 #### MAIN ####
+# assign parameters to default values
+param_values = list(
+  ortho_resolution = 1,
+  window_size = 1250,
+  patch_overlap = 0.25,
+  iou_threshold = 0.15
+)
+
+# check if single_param is correctly set to an included parameter
+allowed_params = c("ortho_resolution", "window_size", "patch_overlap", "iou_threshold")
+if (!(SINGLE_PARAM %in% allowed_params)) {
+  stop(paste("Error: Invalid parameter. Allowed parameters are:", paste(allowed_params, collapse = ", ")))
+}
+
+# make out directory if needed
 if(!dir.exists(OUT_DIR)) {
   dir.create(OUT_DIR, recursive = TRUE)
 }
@@ -37,29 +48,13 @@ fileparts = str_split(file_minus_extension,fixed("/"))[[1]]
 filename_only = fileparts[length(fileparts)]
 
 # loop through all window sizes and run DeepForest for each one
-for(single_param in SINGLE_PARAM_RANGE) {
+for(single_param_value in SINGLE_PARAM_RANGE) {
+  # reassign current parameter of interest
+  param_values[[SINGLE_PARAM]] = single_param_value
   
-  # reassign argument values
-  if (length(SINGLE_PARAM_RANGE) == length(PATCH_OVERLAP)) {
-    patch_overlap = single_param
-    window_size = WINDOW_SIZE
-    ortho_resolution = ORTHO_RESOLUTION
-  } else if (length(SINGLE_PARAM_RANGE) == length(WINDOW_SIZE)) {
-    patch_overlap = PATCH_OVERLAP
-    window_size = single_param
-    ortho_resolution = ORTHO_RESOLUTION
-  } else if (length(SINGLE_PARAM_RANGE) == length(ORTHO_RESOLUTION)) {
-    patch_overlap = PATCH_OVERLAP
-    window_size = WINDOW_SIZE
-    ortho_resolution = single_param
-  } else {
-    print("Unable to determine parameter of interest. Please ensure one parameter
-           is a vector representing the desired parameter range.")
-    break
-  }
-  
+  # make bbox file name
   bbox_gpkg_out = paste0(OUT_DIR, "/bboxes_", filename_only, "_", "dpf", "_",
-                         single_param |> pad_5dig(), ".gpkg")
+                         single_param_value |> pad_5dig(), ".gpkg")
   
   cat("\nStarting detection for", bbox_gpkg_out, "\n")
   
@@ -69,8 +64,8 @@ for(single_param in SINGLE_PARAM_RANGE) {
     next()
   }
   
-  # put together the command line call and call it
-  call = paste("python3 /ofo-share/repos-max/cv-treedetection-eval_max/scripts-for-reference/run-deepforest-prediction-from-command-line.py", ORTHO_FILEPATH, window_size, patch_overlap, ortho_resolution, bbox_gpkg_out, sep = " ")
+  # construct and call command line
+  call = paste("python3 /ofo-share/repos-max/cv-treedetection-eval_max/scripts-for-reference/run-deepforest-prediction-from-command-line.py", ORTHO_FILEPATH, param_values$window_size, param_values$patch_overlap, param_values$ortho_resolution, param_values$iou_threshold, bbox_gpkg_out, sep = " ")
   system(call)
 }
 

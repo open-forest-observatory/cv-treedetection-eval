@@ -15,7 +15,7 @@ import numpy as  np
 from pathlib import Path
 from PIL import Image
 
-# resize helper functions
+
 def resize_ortho(original_ortho, resize_factor):
   """
     Resize the orthomosaic image by the specified resize factor.
@@ -29,7 +29,7 @@ def resize_ortho(original_ortho, resize_factor):
         resized_ortho_array (numpy.ndarray): The resized orthomosaic a numpy array.
   """
   # if line below is commented, large orthos may not be resized (DecompressionBombError)
-  # if line blow is uncommented, resizing large orthos may use excessive memory and processing
+  # if line below is uncommented, resizing large orthos may use excessive memory and processing
   Image.MAX_IMAGE_PIXELS = None
   
   image = Image.fromarray(original_ortho.astype(np.uint8)) # create the PIL image from the numpy array
@@ -48,7 +48,8 @@ in_ortho = sys.argv[1]           # orthomosaic file path
 patch_size = int(sys.argv[2])    # deepforest patch size
 patch_overlap = float(sys.argv[3]) # deepforest patch overlap
 ortho_resolution = float(sys.argv[4]) # orthomosaic resolution
-out_boxes_gpkg = sys.argv[5]     # output geopackage file path
+iou_threshold = float(sys.argv[5]) # minimum iou overlap to be suppressed
+out_boxes_gpkg = sys.argv[6]     # output geopackage file path
 
 # For testing (when running interactively):
 # in_ortho = "/ofo-share/metashape-version-effect/data/meta200/drone/L1/metashape-version-effect_config_10b_2_4_moderate_50_usgs-filter_20230104T1912_ortho_dtm.tif"
@@ -69,7 +70,7 @@ m = main.deepforest()
 m.use_release()
 
 # Run tree prediction
-boxes = m.predict_tile(image=resized_df, patch_size=patch_size, patch_overlap=patch_overlap)
+boxes = m.predict_tile(image=resized_df, patch_size=patch_size, patch_overlap=patch_overlap, iou_threshold=iou_threshold)
 
 # Need to set an attribute of the detected tree bounding boxes to contain the ortho filename
 boxes["image_path"] = in_ortho

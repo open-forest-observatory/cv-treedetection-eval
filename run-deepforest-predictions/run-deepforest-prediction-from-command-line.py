@@ -1,9 +1,12 @@
-# Title: Command Line Deepforest Prediction
+# Title: Run Command Line Deepforest Predictions
 # Description: This script streamlines calling DeepForest from R, expecially
 #              calling it multiple times with different parameters. The script can
 #              be called from the command line and is a wrapper for several functions
-#              in DeepForest (primarily predict_tile and bboxes_to_shapefile).
-# Credit: Largely based on a script developed by Derek Young
+#              in DeepForest (primarily predict_tile and bboxes_to_shapefile). The
+#              structure of the command line call is:
+#              `python3 run-deepforest-prediction-from-command-line.py
+#              {orthomosaic file path} {window size} {output bounding box gpkg file path}
+# Credit: Largely based on a script developed by Derek Young for OFO
 
 from deepforest import main
 from deepforest import get_data
@@ -23,10 +26,10 @@ def resize_ortho(original_ortho, resize_factor):
     Args:
         original_ortho (numpy.ndarray): The original orthomosaic as a numpy array.
         resize_factor (float): The factor by which to resize the orthomosaic
-                               (e.g., 0.8 for 80% resolution).
+                               (e.g. 0.8 for 80% resolution).
 
     Returns:
-        resized_ortho_array (numpy.ndarray): The resized orthomosaic a numpy array.
+        resized_ortho_array (numpy.ndarray): The resized orthomosaic as a numpy array.
   """
   # if line below is commented, large orthos may not be resized (DecompressionBombError)
   # if line below is uncommented, resizing large orthos may use excessive memory and processing

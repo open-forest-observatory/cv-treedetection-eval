@@ -1,7 +1,12 @@
-# Reads in bounding boxes (bboxes) of trees predicted by DeepForest and converts them to treetop points for comparison against a reference stem map.
-# Part of this process involves extracting heights from a CHM (since deepforest does not produce height estimates of trees).
-# The user specifies a folder of bbox files (e.g., each one from a different run of deepforest) and a CHM. The script converts each bbox file to a corresponding treetop points file.
-# Each bbox file to be processed is expected to be in the format: `*_bboxes.gpkg`.
+# Title: Convert DeepForest Bounding Boxes to Treetop Points
+# Description: This script reads in bounding boxes (bboxes) of trees predicted by
+#              DeepForest and converts them to treetop points for comparison against
+#              a reference stem map. This process involves extracting heights from
+#              a CHM (since deepforest does not produce height estimates of trees).
+#              The user specifies a folder of bbox files (e.g., each one from a 
+#              different run of deepforest) and a CHM. The script converts each bbox
+#              file to a corresponding treetop points file. Each bbox file to be
+#              processed is expected to be in the format: `*_bboxes.gpkg`.
 
 library(terra)
 library(tidyverse)

@@ -1,10 +1,10 @@
-# Title: Run Deepforest Multiple Ways
+# Title: Run DeepForest Across Multiple Hyperparameter Combinations
 # Description: This script runs DeepForest (using predict_tile) on a forest orthomosaic
 #              on a range of a specified parameter via run-deepforest-prediction-
 #              from-command-line.py. It saves the detected tree bounding boxes as
 #              a .gpkg with the same name as the orthomosaic, followed by the parameter
 #              value.
-# Credit: Largely based on a script developed by Derek Young
+# Credit: Largely based on a script developed by Derek Young for OFO
 
 library(tidyverse)
 

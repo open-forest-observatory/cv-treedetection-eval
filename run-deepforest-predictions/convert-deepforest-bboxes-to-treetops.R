@@ -1,7 +1,12 @@
-# Reads in bounding boxes (bboxes) of trees predicted by DeepForest and converts them to treetop points for comparison against a reference stem map.
-# Part of this process involves extracting heights from a CHM (since deepforest does not produce height estimates of trees).
-# The user specifies a folder of bbox files (e.g., each one from a different run of deepforest) and a CHM. The script converts each bbox file to a corresponding treetop points file.
-# Each bbox file to be processed is expected to be in the format: `*_bboxes.gpkg`.
+# Title: Convert DeepForest Bounding Boxes to Treetop Points
+# Description: This script reads in bounding boxes (bboxes) of trees predicted by
+#              DeepForest and converts them to treetop points for comparison against
+#              a reference stem map. This process involves extracting heights from
+#              a CHM (since deepforest does not produce height estimates of trees).
+#              The user specifies a folder of bbox files (e.g., each one from a 
+#              different run of deepforest) and a CHM. The script converts each bbox
+#              file to a corresponding treetop points file. Each bbox file to be
+#              processed is expected to be in the format: `*_bboxes.gpkg`.
 
 library(terra)
 library(tidyverse)
@@ -10,9 +15,9 @@ library(sf)
 
 #### CONSTANTS ####
 
-BBOXES_DIR = "/path/to/deepforest/predicted/bboxes.gpkg" # where are the predicted deepforest tree bboxes
-CHM_FILEPATH = "/path/to/CHM.tif" # where to get the CHM (canopy height model) for assigning heights to the treetops
-OUT_DIR = "path/to/output/directory" # where to store the resulting ttops files
+BBOXES_DIR = "..." # where are the predicted deepforest tree bboxes
+CHM_FILEPATH = ".../emerald-point_10a-20230103T2008/chm.tif" # where to get the CHM (canopy height model) for assigning heights to the treetops
+OUT_DIR = "..." # where to store the resulting ttops files
 
 # Load the bboxes files
 bboxes_files = list.files(BBOXES_DIR, pattern="^bboxes.*gpkg$", full.names=TRUE)
@@ -82,3 +87,4 @@ for(bboxes_file in bboxes_files) {
   st_write(ttops, out_filepath, delete_dsn=TRUE)
   
 }
+

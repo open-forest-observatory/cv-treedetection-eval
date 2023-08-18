@@ -9,11 +9,11 @@
 library(tidyverse)
 
 #### CONSTANTS ####
-ORTHO_FILEPATH = ".../ortho.tif" # path to the orthomosaic to detect trees from
-OUT_DIR = "..." # path to the directory to save the results (detected trees) to
+ORTHO_FILEPATH = "/ofo-share/cv-treedetection-eval_data/photogrammetry-outputs/emerald-point_10a-20230103T2008/ortho.tif" # path to the orthomosaic to detect trees from
+OUT_DIR = "/ofo-share/repos-max/single-param-data" # path to the directory to save the results (detected trees) to
 
-SINGLE_PARAM = "..." # the parameter of interest (i.e. ortho_resolution, window_size, patch_overlap, iou_threshold)
-SINGLE_PARAM_RANGE = c() # a vector of the single parameter values
+SINGLE_PARAM = "ortho_resolution" # the parameter of interest (i.e. ortho_resolution, window_size, patch_overlap, iou_threshold)
+SINGLE_PARAM_RANGE = c(1) # a vector of the single parameter values # , 0.80, 1.00, 1.20, 1.50
 
 
 #### MAIN ####
@@ -65,7 +65,6 @@ for(single_param_value in SINGLE_PARAM_RANGE) {
   }
   
   # construct and call command line
-  call = paste("python3 /ofo-share/repos-max/cv-treedetection-eval_max/scripts-for-reference/run-deepforest-prediction-from-command-line.py", ORTHO_FILEPATH, param_values$window_size, param_values$patch_overlap, param_values$ortho_resolution, param_values$iou_threshold, bbox_gpkg_out, sep = " ")
+  call = paste("python3 /ofo-share/repos-max/cv-treedetection-eval_max/run-deepforest-predictions/run-deepforest-prediction-from-command-line.py", ORTHO_FILEPATH, param_values$window_size, param_values$patch_overlap, param_values$ortho_resolution, param_values$iou_threshold, bbox_gpkg_out, sep = " ")
   system(call)
 }
-

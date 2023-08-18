@@ -8,11 +8,11 @@
 library(tidyverse)
 
 #### CONSTANTS ####
-STATS_DIR = "..." # path to folder containing match_stats.csv files
-OUT_DIR = "..." # path to save plot png
+STATS_DIR = "/ofo-share/repos-max/single-param-data/comparisons/ortho_resolution_scale_up/tree_detection_evals" # path to folder containing match_stats.csv files
+OUT_DIR = "/ofo-share/repos-max/single-param-data" # path to save plot png
 
-PLOT_FILE_NAME = "...-plot" # file name to assign to plot png
-SINGLE_PARAM = "..." # the parameter of interest
+PLOT_FILE_NAME = "ortho-resolution-scaled-up-plot" # file name to assign to plot png
+SINGLE_PARAM = "Orthomosaic Resolution" # the parameter of interest
 
 MIN_HEIGHT_COR = 0.85 # minimum acceptable height correlation
 MAX_SEN_PRE_DIFF = 0.5 # maximum acceptable difference between sensitivity and precision

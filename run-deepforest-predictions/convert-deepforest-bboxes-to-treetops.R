@@ -6,7 +6,11 @@
 #              The user specifies a folder of bbox files (e.g., each one from a 
 #              different run of deepforest) and a CHM. The script converts each bbox
 #              file to a corresponding treetop points file. Each bbox file to be
-#              processed is expected to be in the format: `*_bboxes.gpkg`.
+#              processed is expected to be in the format: `*_bboxes.gpkg`. The script
+#              can optionally be called from the command line in the format:
+#              Rscript --vanilla /ofo-share/repos-max/cv-treedetection-eval_max
+#              /run-deepforest-predictions/convert-deepforest-bboxes-to-treetops.R
+#              {BBOXES_DIR} {CHM_FILEPATH} {OUT_DIR}
 
 library(terra)
 library(tidyverse)
@@ -16,7 +20,7 @@ library(sf)
 #### CONSTANTS ####
 
 if(interactive()) {
-  # if run interactively specify constants below
+  # if run interactively, specify constants below
   BBOXES_DIR = "/ofo-share/repos-max/single-param-data/bboxes/ortho-resolution-scale-up" # where the predicted deepforest tree bboxes are
   CHM_FILEPATH = "/ofo-share/cv-treedetection-eval_data/photogrammetry-outputs/emerald-point_10a-20230103T2008/chm.tif" # where to get the CHM (canopy height model) for assigning heights to the treetops
   OUT_DIR = "/ofo-share/repos-max/single-param-data/ttops/ortho_resolution_scale_up" # where to store the resulting ttops files
@@ -25,9 +29,9 @@ if(interactive()) {
   # if run from the command line, get constants from command line arguments
   args = commandArgs(trailingOnly=FALSE)
   
-  BBOXES_DIR = as.character(args[2])
-  CHM_FILEPATH = as.character(args[3])
-  OUT_DIR = as.character(args[4])
+  BBOXES_DIR = as.character(args[7])
+  CHM_FILEPATH = as.character(args[8])
+  OUT_DIR = as.character(args[9])
 }
 
 # Load the bboxes files

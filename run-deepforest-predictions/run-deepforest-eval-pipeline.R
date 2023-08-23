@@ -1,9 +1,9 @@
 # Title: Run A Hyperparameter Combination Through the Parameter Evaluation Pipeline
 # Description: This script runs a given set of DeepForest predict_tile hyperparameters
-#              through the DeepForest evaluation pipeline, starting from an orthomosaic
-#              and ending with the parameters' corresponding f-score. It is designed
-#              to be run from the command line in the format: Rscript --vanilla
-#              /ofo-share/repos-max/cv-treedetection-eval_max/run-deepforest-predictions
+#              through the DeepForest evaluation pipeline, starting from a set of
+#              parameters and ending with the parameters' corresponding f-score.
+#               It is designed to be run from the command line in the format: Rscript
+#               --vanilla /ofo-share/repos-max/cv-treedetection-eval_max/run-deepforest-predictions
 #              /run-deepforest-eval-pipeline.R {in_ortho} {data_dir} {chm_dir}
 #              {patch_size} {patch_overlap} {ortho_resolution} {iou_threshold}
 
@@ -44,12 +44,11 @@ create_clear_dir = function(new_subdir) {
 }
 
 # create/clear directories
-bbox_gpkg_folder = create_clear_dir("bboxes")
-ttop_gpkg_folder = create_clear_dir("ttops")
-stats_gpkg_folder = create_clear_dir("stats")
+bbox_gpkg_folder = create_clear_dir("temp-bboxes")
+ttop_gpkg_folder = create_clear_dir("temp-ttops")
+stats_gpkg_folder = create_clear_dir("temp-stats")
 
-# create base name - (e.g. PS-1200_PO-0.2 refers to a patch size of 1200 and patch 
-#                     overlap of 0.2)
+# create base name - (e.g. PS-1200 refers to a patch size of 1200)
 base_name = paste0("PS-", patch_size, "_PO-", patch_overlap, "_OR-", ortho_resolution, 
                    "_IT-", iou_threshold)
 
@@ -79,8 +78,8 @@ call_script("Rscript --vanilla", RUN_TREE_MAP_COMPARISON_DIR,
                      c(observed_trees_dir, ttop_gpkg_folder, plot_bound_dir,
                        ttop_gpkg_folder, stats_gpkg_folder))
 
-# move resulting statistics csv
+# move resulting statistics csv out of temp-stats
 cur_csv_dir = paste0(stats_gpkg_folder, "/tree_detection_evals/stats_ttops_ortho_",
                      base_name, ".csv")
 new_csv_dir = paste0(data_dir, "/stats_", base_name, ".csv")
-file.rename(cur_csv_dir, new_csv_dir);
+file.rename(cur_csv_dir, new_csv_dir)

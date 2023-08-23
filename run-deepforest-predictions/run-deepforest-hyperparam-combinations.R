@@ -9,11 +9,11 @@
 library(tidyverse)
 
 #### CONSTANTS ####
-ORTHO_FILEPATH = "/ofo-share/cv-treedetection-eval_data/photogrammetry-outputs/emerald-point_10a-20230103T2008/ortho.tif" # path to the orthomosaic to detect trees from
-OUT_DIR = "/ofo-share/repos-max/single-param-data" # path to the directory to save the results (detected trees) to
+ORTHO_FILEPATH = ".../ortho.tif" # path to the orthomosaic to detect trees from
+OUT_DIR = "..." # path to the directory to save the results (detected trees) to
 
-SINGLE_PARAM = "ortho_resolution" # the parameter of interest (i.e. ortho_resolution, window_size, patch_overlap, iou_threshold)
-SINGLE_PARAM_RANGE = c(1) # a vector of the single parameter values # , 0.80, 1.00, 1.20, 1.50
+SINGLE_PARAM = "..." # the parameter of interest (i.e. ortho_resolution, window_size, patch_overlap, iou_threshold)
+SINGLE_PARAM_RANGE = c() # a vector of the single parameter values # , 0.80, 1.00, 1.20, 1.50
 
 
 #### MAIN ####

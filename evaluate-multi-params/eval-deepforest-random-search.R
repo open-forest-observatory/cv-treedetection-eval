@@ -11,8 +11,8 @@ library(viridis)
 library(hrbrthemes)
 
 #### CONSTANTS ####
-STATS_DIR = "/ofo-share/repos-max/multi-param-data" # path to folder that contains stat csv files
-OUT_DIR = "/ofo-share/repos-max/multi-param-data/plots" # path to save plot pngs
+STATS_DIR = "..." # path to folder that contains stat csv files
+OUT_DIR = "..." # path to save plot pngs
 
 PAIRWISE_PLOT_NAME = "pairwise-scatter-plot" # file name to assign to plot png
 PARALLEL_PLOT_NAME = "parallel-coordinates-plot "# file name to assign to plot png

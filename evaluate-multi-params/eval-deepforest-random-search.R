@@ -7,10 +7,12 @@
 
 library(tidyverse)
 library(GGally)
+library(viridis)
+library(hrbrthemes)
 
 #### CONSTANTS ####
-STATS_DIR = "/ofo-share/repos-max/multi-param-data" # path to folder stat csv files
-OUT_DIR = "/ofo-share/repos-max/multi-param-data/plots" # path to save plot png
+STATS_DIR = "/ofo-share/repos-max/multi-param-data" # path to folder that contains stat csv files
+OUT_DIR = "/ofo-share/repos-max/multi-param-data/plots" # path to save plot pngs
 
 PAIRWISE_PLOT_NAME = "pairwise-scatter-plot" # file name to assign to plot png
 PARALLEL_PLOT_NAME = "parallel-coordinates-plot "# file name to assign to plot png
@@ -19,9 +21,12 @@ PARALLEL_PLOT_NAME = "parallel-coordinates-plot "# file name to assign to plot p
 if(!dir.exists(OUT_DIR)) {
   dir.create(OUT_DIR, recursive = TRUE)
 }
+
+# load stats CSV files and paths
 stats_files = list.files(STATS_DIR, pattern = "^stats.*\\.csv$")
 stats_paths = file.path(STATS_DIR, stats_files)
 
+# read and clean CSV files
 stats = stats_paths %>%
   # read stats CSV files into one dataframe
   map_dfr(read_csv) %>%
@@ -47,19 +52,18 @@ stats = stats %>%
 
 #### PLOTTING ####
 # create a pairwise scatter plot
-plot_data = select(stats, patch_size, patch_overlay, ortho_resolution, iso_threshold, f_score)
-pairwise_plot = ggpairs(plot_data)
+plot_data = select(stats, patch_size, patch_overlay, ortho_resolution, iso_threshold,
+                   f_score)
+pairwise_plot = ggpairs(plot_data, lower=list(continuous=wrap("points", size=0.6))) +
+  labs(title="DeepForest Random Search Pairwise Scatter Plot")
 
 # save the plot as a PNG file
 pairwise_plot_name = paste0(OUT_DIR, "/", PAIRWISE_PLOT_NAME, ".png")
 ggsave(pairwise_plot_name, plot=pairwise_plot, width=8, height=6)
 
 # create a parallel coordinates plot
-library(viridis)
-library(hrbrthemes)
-
 parallel_plot = ggparcoord(plot_data, showPoints=TRUE, scale="uniminmax",
-  title="Parallel Coordinate Plot for DeepForest Random Search",
+  title="DeepForest Random Search Parallel Coordinate Plot",
   alphaLines=0.3, groupColumn = "f_score") +
   scale_color_viridis(option = "F") +
   theme_ipsum() +

@@ -11,8 +11,8 @@ library(viridis)
 library(hrbrthemes)
 
 #### CONSTANTS ####
-STATS_DIR = "..." # path to folder that contains stat csv files
-OUT_DIR = "..." # path to save plot pngs
+STATS_DIR = "/ofo-share/repos-max/multi-param-data" # path to folder that contains stat csv files
+OUT_DIR = "/ofo-share/repos-max/multi-param-data/plots" # path to save plot pngs
 
 PAIRWISE_PLOT_NAME = "pairwise-scatter-plot" # file name to assign to plot png
 PARALLEL_PLOT_NAME = "parallel-coordinates-plot "# file name to assign to plot png
@@ -52,6 +52,22 @@ stats = stats %>%
   mutate(across(c(patch_size, patch_overlay, ortho_resolution, iso_threshold),
                 ~ as.numeric(gsub("[A-Z]+-", "", .))))
 
+# find the row with the highest f_score
+optimal_combination = stats[which.max(stats$f_score), ]
+
+# extract hyperparameter values from the row with highest f-score
+best_patch_size = optimal_combination$patch_size
+best_patch_overlay = optimal_combination$patch_overlay
+best_ortho_resolution = optimal_combination$ortho_resolution
+best_iso_threshold = optimal_combination$iso_threshold
+
+# display the optimal hyperparameter combination
+cat("Optimal Hyperparameter Combination:\n")
+cat("Patch Size:", best_patch_size, "\n")
+cat("Patch Overlay:", best_patch_overlay, "\n")
+cat("Ortho Resolution:", best_ortho_resolution, "\n")
+cat("ISO Threshold:", best_iso_threshold, "\n")
+cat("F-Score:", optimal_combination$f_score, "\n")
 
 #### PLOTTING ####
 # create a pairwise scatter plot

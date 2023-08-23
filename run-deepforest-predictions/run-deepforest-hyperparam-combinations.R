@@ -13,7 +13,7 @@ ORTHO_FILEPATH = ".../ortho.tif" # path to the orthomosaic to detect trees from
 OUT_DIR = "..." # path to the directory to save the results (detected trees) to
 
 SINGLE_PARAM = "..." # the parameter of interest (i.e. ortho_resolution, window_size, patch_overlap, iou_threshold)
-SINGLE_PARAM_RANGE = c() # a vector of the single parameter values # , 0.80, 1.00, 1.20, 1.50
+SINGLE_PARAM_RANGE = c() # a vector of the single parameter values
 
 
 #### MAIN ####

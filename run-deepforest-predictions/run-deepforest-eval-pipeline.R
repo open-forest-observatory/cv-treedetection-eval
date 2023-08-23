@@ -2,8 +2,8 @@
 # Description: This script runs a given set of DeepForest predict_tile hyperparameters
 #              through the DeepForest evaluation pipeline, starting from a set of
 #              parameters and ending with the parameters' corresponding f-score.
-#               It is designed to be run from the command line in the format: Rscript
-#               --vanilla /ofo-share/repos-max/cv-treedetection-eval_max/run-deepforest-predictions
+#              It is designed to be run from the command line in the format: Rscript
+#              --vanilla /ofo-share/repos-max/cv-treedetection-eval_max/run-deepforest-predictions
 #              /run-deepforest-eval-pipeline.R {in_ortho} {data_dir} {chm_dir}
 #              {patch_size} {patch_overlap} {ortho_resolution} {iou_threshold}
 
@@ -12,6 +12,7 @@
 RUN_DEEPFOREST_PREDICTION_FROM_COMMAND_LINE_DIR = "/ofo-share/repos-max/cv-treedetection-eval_max/run-deepforest-predictions/run-deepforest-prediction-from-command-line.py"
 CONVERT_DEEPFOREST_BBOXES_TO_TREETOPS_DIR = "/ofo-share/repos-max/cv-treedetection-eval_max/run-deepforest-predictions/convert-deepforest-bboxes-to-treetops.R"
 RUN_TREE_MAP_COMPARISON_DIR = "/ofo-share/utils/tree-map-comparison/run-tree-map-comparison.R"
+
 
 #### SCRIPT CALLING PREPARATION ####
 # access the command line call
@@ -22,7 +23,7 @@ if (length(hyperparam_args) != 9) {
   stop("Error: Invalid number of arugments provided.")
 }
 
-# access and assign hyperparameter values
+# assign hyperparameter values
 in_ortho = hyperparam_args[1]
 data_dir = hyperparam_args[2]
 chm_dir = hyperparam_args[3]

@@ -17,6 +17,7 @@ OUT_DIR = "..." # path to save plot pngs
 PAIRWISE_PLOT_NAME = "pairwise-scatter-plot" # file name to assign to plot png
 PARALLEL_PLOT_NAME = "parallel-coordinates-plot "# file name to assign to plot png
 
+
 #### DATA LOADING ####
 if(!dir.exists(OUT_DIR)) {
   dir.create(OUT_DIR, recursive = TRUE)
@@ -38,6 +39,7 @@ stats = stats_paths %>%
   # remove unneeded rows
   filter(canopy_position == "overstory" & height_cat == "10+")
 
+
 #### DATA PROCESSING ####
 stats = stats %>%
   # extract hyperparameter values from csv file name
@@ -46,9 +48,10 @@ stats = stats %>%
            sep = "_", extra = "merge", fill = "right") %>%
   # remove prefix columns
   select(-ttops, -ortho) %>%
-  # convert values from character to numerical values
+  # convert from character to numerical values
   mutate(across(c(patch_size, patch_overlay, ortho_resolution, iso_threshold),
                 ~ as.numeric(gsub("[A-Z]+-", "", .))))
+
 
 #### PLOTTING ####
 # create a pairwise scatter plot

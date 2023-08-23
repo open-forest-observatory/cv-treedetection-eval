@@ -5,7 +5,7 @@
 #              in DeepForest (primarily predict_tile and bboxes_to_shapefile). The
 #              structure of the command line call is:
 #              `python3 run-deepforest-prediction-from-command-line.py
-#              {orthomosaic file path} {window size} {output bounding box gpkg file path}`
+#              {orthomosaic file path} {window size} {output bounding box gpkg file path}
 # Credit: Largely based on a script developed by Derek Young for OFO
 
 from deepforest import main

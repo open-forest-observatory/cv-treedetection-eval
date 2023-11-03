@@ -65,7 +65,6 @@ for(single_param_value in SINGLE_PARAM_RANGE) {
   }
   
   # construct and call command line
-  call = paste("python3 /ofo-share/repos-max/cv-treedetection-eval_max/scripts-for-reference/run-deepforest-prediction-from-command-line.py", ORTHO_FILEPATH, param_values$window_size, param_values$patch_overlap, param_values$ortho_resolution, param_values$iou_threshold, bbox_gpkg_out, sep = " ")
+  call = paste("python3 /ofo-share/repos-max/cv-treedetection-eval_max/run-deepforest-predictions/run-deepforest-prediction-from-command-line.py", ORTHO_FILEPATH, param_values$window_size, param_values$patch_overlap, param_values$ortho_resolution, param_values$iou_threshold, bbox_gpkg_out, sep = " ")
   system(call)
 }
-

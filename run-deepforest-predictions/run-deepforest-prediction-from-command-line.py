@@ -31,6 +31,9 @@ def resize_ortho(original_ortho, resize_factor):
     Returns:
         resized_ortho_array (numpy.ndarray): The resized orthomosaic as a numpy array.
   """
+  if resize_factor == 1:
+    return original_ortho
+  
   # if line below is commented, large orthos may not be resized (DecompressionBombError)
   # if line below is uncommented, resizing large orthos may use excessive memory and processing
   Image.MAX_IMAGE_PIXELS = None

@@ -18,7 +18,7 @@ Data files associated with this repo are on [Box](https://ucdavis.box.com/s/4uqt
 
 ## To do
 
--   Run [DeepForest](https://deepforest.readthedocs.io/en/latest/index.html) tree detection on the Emerald Point orthomosaic (see below) wtih different combinations of the following parameters:
+-   Run [DeepForest](https://deepforest.readthedocs.io/en/latest/index.html) tree detection on the Emerald Point orthomosaic (see above) wtih different combinations of the following parameters:
     -   patch_size (aka "window size" in the scripts above) - parameter of `predict_tile`
         -   the script `run-deepforest-multiple-ways.R` is already set up to run tree detection with a range of patch sizes
     -   patch_overlap - parameter of `predict_tile`
